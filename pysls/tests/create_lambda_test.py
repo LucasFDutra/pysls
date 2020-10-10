@@ -1,0 +1,61 @@
+import pysls.src.create_lambda as clf
+from pysls.utils.rmdir import rmdir
+import os
+
+project_test_name = 'lambda_test'
+python_version = '3.8'
+
+def test_create_dir_structure():
+    clf.create_dir_structure(project_test_name)
+    dir_level_one_returned = os.listdir(os.path.join('.', project_test_name))
+    dir_level_one_expected = [project_test_name]
+
+    dir_level_two_returned = os.listdir(os.path.join('.', project_test_name, project_test_name))
+    dir_level_two_expected = ['src', 'tests']
+    dir_level_two_returned.sort()
+    dir_level_two_expected.sort()
+
+    dir_level_three_returned = os.listdir(os.path.join('.', project_test_name, project_test_name, 'tests'))
+    dir_level_three_expected = ['integration', 'unit', 'utils']
+    dir_level_three_returned.sort()
+    dir_level_three_expected.sort()
+
+    dir_level_four_returned = os.listdir(os.path.join('.', project_test_name, project_test_name, 'tests', 'utils'))
+    dir_level_four_expected = ['files', 'mocks']
+    dir_level_four_returned.sort()
+    dir_level_four_expected.sort()
+
+    assert(
+        dir_level_one_returned == dir_level_one_expected and \
+        dir_level_two_returned == dir_level_two_expected and \
+        dir_level_three_returned == dir_level_three_expected and \
+        dir_level_four_returned == dir_level_four_expected
+    )
+
+def test_create_main_files():
+    clf.create_main_files(project_test_name, python_version)
+    files_level_one_returned = [f for f in os.listdir(os.path.join('.', project_test_name)) if '.' in f]
+    files_level_one_expected = ['requirements.txt', 'docker-compose.yml', 'pyproject.toml', 'README.md', '.gitignore']
+    files_level_one_returned.sort()
+    files_level_one_expected.sort()
+
+    files_level_two_returned = [f for f in os.listdir(os.path.join('.', project_test_name, project_test_name)) if '.' in f]
+    files_level_two_expected = ['__init__.py']
+    files_level_two_returned.sort()
+    files_level_two_expected.sort()
+
+    assert(
+        files_level_one_returned == files_level_one_expected and \
+        files_level_two_returned == files_level_two_expected
+    )
+
+def test_create_src_files():
+    clf.create_src_files(project_test_name, python_version)
+    files_returned = [f for f in os.listdir(os.path.join('.', project_test_name, project_test_name, 'src')) if '.' in f]
+    files_expected = ['lambda_function.py', 'serverless.yml']
+    files_returned.sort()
+    files_expected.sort()
+    
+    rmdir(os.path.join('.', project_test_name))
+
+    assert(files_returned == files_expected)
