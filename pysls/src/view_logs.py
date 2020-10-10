@@ -2,6 +2,7 @@ import boto3
 import json
 import os
 
+
 def view_logs_local(project_name):
     config_cw_logs = {
         'service_name': 'logs',
