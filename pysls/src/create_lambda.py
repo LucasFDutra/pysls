@@ -237,9 +237,6 @@ def create_src_files(project_name, python_version):
         serverless.write("  - serverless-localstack\n")
 
 def create_lambda(project_name, python_version):
-    # project_name = 'lambda_test'
-    # project_name = input('Project Name: ')
-    # project_name = re.sub('(\W+)', '_', project_name)
     create_dir_structure(project_name)
     create_main_files(project_name, python_version)
     create_src_files(project_name, python_version)

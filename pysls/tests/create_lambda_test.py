@@ -2,7 +2,7 @@ import pysls.src.create_lambda as clf
 from pysls.utils.rmdir import rmdir
 import os
 
-project_test_name = 'lambda_test'
+project_test_name = 'lambda_test_create'
 python_version = '3.8'
 
 def test_create_dir_structure():
