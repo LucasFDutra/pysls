@@ -1,8 +1,9 @@
 [tool.poetry]
 name = "pysls"
-version = "0.1.0"
+version = "1.0.0"
 description = ""
 authors = ["LucasFDutra"]
+exclude = ["pysls/tests"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -18,3 +19,4 @@ pytest-cov = "^2.10.1"
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
+
