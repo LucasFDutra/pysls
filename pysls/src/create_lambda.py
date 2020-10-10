@@ -37,14 +37,14 @@ def create_main_files(project_name, python_version):
         pyproject.write("authors = [\"YOUR NAME\"]\n")
         pyproject.write("\n")
         pyproject.write("[tool.poetry.dependencies]\n")
-        pyproject.write("python = \""+python_version+"\"\n")
+        pyproject.write("python = \"^"+python_version+"\"\n")
         pyproject.write("\n")
         pyproject.write("[tool.poetry.dev-dependencies]\n")
         pyproject.write("pytest = \"^5.2\"\n")
         pyproject.write("\n")
         pyproject.write("[build-system]\n")
-        pyproject.write("requires = [\"poetry>=0.12\"]\n")
-        pyproject.write("build-backend = \"poetry.masonry.api\"\n")
+        pyproject.write("requires = [\"poetry-core>=1.0.0\"]\n")
+        pyproject.write("build-backend = \"poetry.core.masonry.api\"\n")
 
     with open(os.path.join('.', project_name, 'README.md'), 'w') as readme:
         readme.write('# OBJETIVO\n')
