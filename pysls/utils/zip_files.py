@@ -11,6 +11,6 @@ def get_all_file_paths(directory_to_zip):
   
 def zip_files(directory_to_zip, zip_file_name): 
     file_paths = get_all_file_paths(directory_to_zip) 
-    with ZipFile(zip_file_name,'w') as zip: 
+    with ZipFile(zip_file_name+'.zip','w') as zip: 
         for file in file_paths: 
             zip.write(file) 
