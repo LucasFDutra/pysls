@@ -2,10 +2,11 @@ import pysls.src.create_lambda as clf
 from pysls.utils.rmdir import rmdir
 import os
 
-project_test_name = 'lambda_test_create'
 python_version = '3.8'
 
 def test_create_dir_structure():
+    project_test_name = 'lambda_test_dir_structure'
+
     clf.create_dir_structure(project_test_name)
     dir_level_one_returned = os.listdir(os.path.join('.', project_test_name))
     dir_level_one_expected = [project_test_name]
@@ -25,6 +26,8 @@ def test_create_dir_structure():
     dir_level_four_returned.sort()
     dir_level_four_expected.sort()
 
+    rmdir(os.path.join('.', project_test_name))
+
     assert(
         dir_level_one_returned == dir_level_one_expected and \
         dir_level_two_returned == dir_level_two_expected and \
@@ -33,6 +36,9 @@ def test_create_dir_structure():
     )
 
 def test_create_main_files():
+    project_test_name = 'lambda_test_main_files'
+    clf.create_dir_structure(project_test_name)
+
     clf.create_main_files(project_test_name, python_version)
     files_level_one_returned = [f for f in os.listdir(os.path.join('.', project_test_name)) if '.' in f]
     files_level_one_expected = ['requirements.txt', 'docker-compose.yml', 'pyproject.toml', 'README.md', '.gitignore']
@@ -44,12 +50,17 @@ def test_create_main_files():
     files_level_two_returned.sort()
     files_level_two_expected.sort()
 
+    rmdir(os.path.join('.', project_test_name))
+
     assert(
         files_level_one_returned == files_level_one_expected and \
         files_level_two_returned == files_level_two_expected
     )
 
 def test_create_src_files():
+    project_test_name = 'lambda_test_src_files'
+    clf.create_dir_structure(project_test_name)
+
     clf.create_src_files(project_test_name, python_version)
     files_returned = [f for f in os.listdir(os.path.join('.', project_test_name, project_test_name, 'src')) if '.' in f]
     files_expected = ['lambda_function.py', 'serverless.yml']
