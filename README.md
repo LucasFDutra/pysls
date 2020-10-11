@@ -109,7 +109,7 @@ It is possible not to send any files, in this case run the command `$ pysls --in
 
 # FUTURE IDEAS
 
-- <input type='checkbox'/> Create your own settings file;
-- <input type='checkbox'/> Generate the event files by the tool itself;
-- <input type='checkbox'/> Do not depend on the Serveless Framework to build the function and its dependencies and send it to the localstack;
-- <input type='checkbox'/> Add new future ideas kkk
+- [ ] Create your own settings file;
+- [ ] Generate the event files by the tool itself;
+- [ ] Do not depend on the Serveless Framework to build the function and its dependencies and send it to the localstack;
+- [ ] Add new future ideas kkk
