@@ -3,9 +3,17 @@
 </a>
 
 # OBJETIVO
-Facilitar a criação de um projeto aws lambda em python. Criando a estrutura de diretórios, possibilitando o deploy dentro do localstack, invocação da função de dentro do container, visualização dos logs da função e a criação de zips que serão utilizados para construção dos layers.
+Facilitar a criação de um projeto aws lambda em python. Criando a estrutura de diretórios, possibilitando o deploy dentro do [localstack](https://github.com/localstack/localstack), invocação da função de dentro do container, visualização dos logs da função e a criação de zips que serão utilizados para construção dos layers.
 
 > NOTA: Para os usuários de Windows a sua função e layers pode apresentar alguns problemas devido as dependências com binários em C. Pois os binários em linux são diferentes dos de windows, logo a lambda não conseguirá entender. Por isso recomendo (assim como a documentação da aws) que você utilize um container para desenvolvimento ou o WSL.
+
+# REQUISITOS
+
+Caso deseje utilizar o localstack para seus testes, será necessário instalar o docker. E para a função de deploy no localstack é necessário utilizar o serverless framework, logo também é necessário instalar o node. 
+
+- [docker](https://docs.docker.com/get-docker/)
+- [node](https://nodejs.org/en/)
+- [serverless](https://www.serverless.com/framework/docs/getting-started/)
 
 # COMO INSTALAR
 Para instalar a aplicação é bem simples, basta digitar o comando:
@@ -94,3 +102,14 @@ Também faz o processo de montar o nome da função. E por meio da SDK do python
 Também é possível não enviar nenhum arquivo de evento, no caso basta executar o comando `$ pysls --invoke`.
 
 > OBS.: Para criar esse arquivo, recomendo dar uma olhada na documentação do [SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-local-generate-event.html) na parte em que ele é utilizado para gerar esse arquivo
+
+# COMO CONTRIBUIR
+
+- Abra uma issue com sua ideia para discutirmos
+- Depois faça um fork e mande seu pull request (por favor, não mande pull requests muito grandes).
+
+# IDEIAS FUTURAS
+
+- [] Gerar os arquivos de eventos pela própria ferramenta;
+- [] Não depender do Serveless Framework para montar a função e suas dependências e enviar a mesma para dentro do localstack;
+- [] Adicionar novas ideias futuras kkk
