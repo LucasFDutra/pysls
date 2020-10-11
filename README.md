@@ -1,3 +1,7 @@
+<a href="https://codecov.io/gh/LucasFDutra/pysls">
+  <img src="https://codecov.io/gh/LucasFDutra/pysls/branch/master/graph/badge.svg" />
+</a>
+
 # OBJETIVO
 Facilitar a criação de um projeto aws lambda em python. Criando a estrutura de diretórios, possibilitando o deploy dentro do localstack, invocação da função de dentro do container, visualização dos logs da função e a criação de zips que serão utilizados para construção dos layers.
 
