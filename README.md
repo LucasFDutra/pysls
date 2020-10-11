@@ -2,37 +2,36 @@
   <img src="https://codecov.io/gh/LucasFDutra/pysls/branch/master/graph/badge.svg" />
 </a>
 
-# OBJETIVO
-Facilitar a criação de um projeto aws lambda em python. Criando a estrutura de diretórios, possibilitando o deploy dentro do [localstack](https://github.com/localstack/localstack), invocação da função de dentro do container, visualização dos logs da função e a criação de zips que serão utilizados para construção dos layers.
+# OBJECTIVE
+To facilitate the build of aws lambda projects in python. Building a directory structure, enabling deployment within the [localstack](https://github.com/localstack/localstack), invoke the function inside the container, view functions logs and create zip files to use for building layers.
 
-> NOTA: Para os usuários de Windows a sua função e layers pode apresentar alguns problemas devido as dependências com binários em C. Pois os binários em linux são diferentes dos de windows, logo a lambda não conseguirá entender. Por isso recomendo (assim como a documentação da aws) que você utilize um container para desenvolvimento ou o WSL.
+> NOTE.: If you use Windows, you may want to use Docker or WSL to build layers and build dependency packages, because some dependencies have C binaries. And the binaries on Linux are different from Windows, and lambda runs on Linux.
 
-# REQUISITOS
+# REQUIREMENTS
 
-Caso deseje utilizar o localstack para seus testes, será necessário instalar o docker. E para a função de deploy no localstack é necessário utilizar o serverless framework, logo também é necessário instalar o node. 
+If you want to use localstack to run your tests, you need to install the docker. And to use the deploy function into the localstack, you will need the serverless framework too, so you will also need to install the node.
 
 - [docker](https://docs.docker.com/get-docker/)
 - [node](https://nodejs.org/en/)
 - [serverless](https://www.serverless.com/framework/docs/getting-started/)
 
-# COMO INSTALAR
-Para instalar a aplicação é bem simples, basta digitar o comando:
+# HOW TO INSTALL
+To install the application, just run the command below:
 
 ```sh
 $ pip install pysls
 ```
 
-# COMO UTILIZAR
-Uma vez que o pacote esteja instalado, você pode rodar ele via linha de comando. Os comandos são os seguintes:
+# HOW TO USE
+Once the package is installed, you can run it via the command line. The commands are as follows:
 
 ---
-## CRIAR ESTRUTURA DE ARQUIVOS
+## CREATE FILE STRUCTURE
 
 ```sh
 $ pysls --create_function=project_name
 ```
-
-A estrutura de arquivos é dada da seguinte forma:
+The files structure is as follows:
 
 ```sh
 ├── docker-compose.yml
@@ -52,64 +51,65 @@ A estrutura de arquivos é dada da seguinte forma:
 └── requirements.txt
 ```
 
-- `docker-compose.yml`: Contém uma estrutura pré montada do localstack;
-- `lambda_test/src/lambda_function.py`: O arquivo onde a função lambda deve ficar, e qualquer outro arquivo pertencente a função lambda deve ficar contido dentro da pasta src;
-- `lambda_test/src/serverless.yml`: Configurações para o serverless framework (já contendo o plugin para o localstack);
-- `tests`: Pasta reservada a criar seus testes;
-- `pyproject.toml`: Esse arquivo serve para quem quer utilizar o poetry como gerenciador de pacotes, porém o pysls também precisa dele para recuperar informações;
-- `requirements.txt`: É desse arquivo que o pysls irá utilizar para criar seu layer e buildar a aplicação para colocá-la no localstack.
+- `docker-compose.yml`: Contains a pre-assembled localstack structure;
+- `lambda_test/src/lambda_function.py`: This file contains the main function code, and any other files must exist within the src folder;
+- `lambda_test/src/serverless.yml`: Contains serverless framework settings (the localstack plugin is already included);
+- `tests`: Folder reserved for your tests;
+- `pyproject.toml`: This file is for those who want to use poetry as package manager, but pysls also needs it to retrieve information;
+- `requirements.txt`: pysls uses this file to create a layer and to build  a lambda function package to send to localstack.
 
-> OBS.: A versão free do localstack não permite a utilização de layers, mas é possível enviar os códigos das libs dentro do pacote da lambda.
+> OBS.: With the free version of localstack is not possible to use layers, but it is possible to send the code from the libraries together with the lambda code package.
 
 ---
-## MONTAR O ZIP DO LAYER
+## ASSEMBLING THE LAYER ZIP FILE
 
 ```sh
 $ pysls --create_layer=layer_name
 ```
 
-Esse comando irá rodar o pip apontando como destino do pacote uma pasta `./python/lib/python+python_version/site-packages`, depois de baixar todos os arquivos nessa pasta, ela será zipada, e depois apagada.
+This command will run the pip pointing to the folder `./python/lib/python+python_version/site-packages` as the final directory to place the library files, and after that it will compress the folder and delete it
 
 ---
-## ENVIAR PARA O LOCALSTACK
+## SEND TO LOCALSTACK
 
 ```sh
 $ pysls --deploy
 ```
 
-Esse comando irá copiar a sua pasta src para uma pasta `./scr_tmp`, depois disso um comando npm é executado adicionando assim o plugin serverless-localstack. Após instalar o plugin, serão adicionados a pasta todos os pacotes que estão dentro do arquivo `requirements.txt`. O script roda o comando de deploy do serverless framework, e envia tudo para o localstack. Em seguida a pasta `./scr_tmp` é excluída.
+This command will copy the `src` folder to `./src_tmp`, and after that it will run a npm command to add the `serverless-localstack` plugin. After that, it will add to the folder the libraries files that are listed in the file `requirements.txt`. The script will execute the deploy command into the localstack based on the deploy command of serverless framework. After all this, the folder `./src_tmp` will be deleted.
 
-> OBS.: O localstack precisa estar ativo, caso não esteja, basta executar o comando: `$ docker-compose -up`.
+> OBS.: The localstack must be active, if not, run the commando: `$ docker-compose -up`.
 
 ---
-## VER LOGS DE DENTRO DO LOCALSTACK
+## VIEW LOGS INSIDE THE LOCALSTACK
 
 ```sh
 $ pysls --logs
 ```
 
-Esse comando busca de dentro do arquivo `pyproject.toml` o nome do projeto, e de dentro do arquivo `lambda_test/src/serverless.yml` o nome parcial da função dentro da lambda no localstack. O nome completo é montado da seguinte forma `/aws/lambda/<function_name_in_serverless>-dev-<project_name_in_pyproject>`. Com o nome completo da função, é possível olhar nos grupos de logs do cloud watch e buscar por tudo que for relacionado somente a essa função.
+This command searches for the project name within `pyproject.toml` and the partial name of the lambda function within `lambda_test/src/serverless.yml`. The full name is constructed as follows: `/aws/lambda/<function_name_in_serverless>-dev-<project_name_in_pyproject>`. With the full name, it is possible to view all logs related to the function.
 
 ---
-## EXECUTAR A FUNÇÃO COM BASE EM UM EVENTO
+## EXECUTE THE FUNCTION BASED ON AN EVENT
 
 ```sh
 $ pysls --invoke=event_file_path
 ```
 
-Também faz o processo de montar o nome da função. E por meio da SDK do python a função é invocada passando o arquivo de evento como parâmetro. E exibe o retorno da lambda.
+Perform the same process to assemble the function name. And use the python SDK to invoke lambda by passing the event file as a parameter. And then it shows the lambda's response.
 
-Também é possível não enviar nenhum arquivo de evento, no caso basta executar o comando `$ pysls --invoke`.
+It is possible not to send any files, in this case run the command `$ pysls --invoke`.
 
-> OBS.: Para criar esse arquivo, recomendo dar uma olhada na documentação do [SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-local-generate-event.html) na parte em que ele é utilizado para gerar esse arquivo
+> OBS.: To create this file, I recommend consulting the [SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-local-generate-event.html) documentation, with SAM it is possible to create this event file.
 
-# COMO CONTRIBUIR
+# HOW TO CONTRIBUTE
 
-- Abra uma issue com sua ideia para discutirmos
-- Depois faça um fork e mande seu pull request (por favor, não mande pull requests muito grandes).
+- Open an issue with your idea to discuss;
+- Then fork and send your pull request (please do not send too large pull requests).
 
-# IDEIAS FUTURAS
+# FUTURE IDEAS
 
-- [] Gerar os arquivos de eventos pela própria ferramenta;
-- [] Não depender do Serveless Framework para montar a função e suas dependências e enviar a mesma para dentro do localstack;
-- [] Adicionar novas ideias futuras kkk
+- <input type='checkbox'/> Create your own settings file;
+- <input type='checkbox'/> Generate the event files by the tool itself;
+- <input type='checkbox'/> Do not depend on the Serveless Framework to build the function and its dependencies and send it to the localstack;
+- <input type='checkbox'/> Add new future ideas kkk
