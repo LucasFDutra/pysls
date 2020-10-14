@@ -1,5 +1,5 @@
 <a href="https://codecov.io/gh/LucasFDutra/pysls">
-  <img src="https://codecov.io/gh/LucasFDutra/pysls/branch/dev/graph/badge.svg" />
+  <img src="https://codecov.io/gh/LucasFDutra/pysls/branch/master/graph/badge.svg" />
 </a>
 
 # OBJECTIVE
