@@ -2,8 +2,8 @@ import os
 from pysls.utils.copy_folder import copy_folder
 from pysls.utils.rmdir import rmdir
 
-def deploy_local(project_name):
-    path_code_from = os.path.join(project_name, 'src')
+def deploy_local(function_name):
+    path_code_from = os.path.join(function_name, 'src')
     path_code_to = os.path.join('.', 'src_tmp')
     os.mkdir(path_code_to)
     copy_folder(path_code_from, path_code_to)

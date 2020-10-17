@@ -87,7 +87,7 @@ This command will copy the `src` folder to `./src_tmp`, and after that it will r
 $ pysls --logs
 ```
 
-This command searches for the project name within `pyproject.toml` and the partial name of the lambda function within `lambda_test/src/serverless.yml`. The full name is constructed as follows: `/aws/lambda/<function_name_in_serverless>-dev-<project_name_in_pyproject>`. With the full name, it is possible to view all logs related to the function.
+This command gets the settings inside the `pysls_config.json` file, and sets up the function's logGroupName: `/aws/lambda/<service_name>-dev-<function_name>`. With the full name, it is possible to view all logs related to the function.
 
 ---
 ## EXECUTE THE FUNCTION BASED ON AN EVENT
@@ -96,11 +96,31 @@ This command searches for the project name within `pyproject.toml` and the parti
 $ pysls --invoke=event_file_path
 ```
 
-Perform the same process to assemble the function name. And use the python SDK to invoke lambda by passing the event file as a parameter. And then it shows the lambda's response.
+This command gets the settings inside `pysls_config.json` and with that it assembles the name that the function has inside the localstack `<service_name>-dev-<function_name>`. And use the python SDK to invoke lambda by passing the event file as a parameter. And then it shows the lambda's response.
 
 It is possible not to send any files, in this case run the command `$ pysls --invoke`.
 
 > OBS.: To create this file, I recommend consulting the [SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-local-generate-event.html) documentation, with SAM it is possible to create this event file.
+
+## CONFIGURATIONS
+Use the `pysls_config.json` file to pass some settings. For now, there are only two: `service` and `function_name`. It is extremely important that these two names are the same as `serverless.yml`
+
+- pysls_config.json
+  ```json
+  {
+      "service": "test-lambda",
+      "function_name": "test_lambda"
+  }
+  ```
+
+- serverless.yml
+  ```yaml
+  service: test-lambda
+
+  functions:
+    test_lambda:
+      handler: lambda_function.lambda_handler
+  ```
 
 # HOW TO CONTRIBUTE
 
@@ -109,7 +129,7 @@ It is possible not to send any files, in this case run the command `$ pysls --in
 
 # FUTURE IDEAS
 
-- [ ] Create your own settings file;
+- [x] Create your own settings file;
 - [ ] Generate the event files by the tool itself;
 - [ ] Do not depend on the Serveless Framework to build the function and its dependencies and send it to the localstack;
 - [ ] Add new future ideas kkk

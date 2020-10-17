@@ -3,6 +3,7 @@ name = "pysls"
 version = "1.0.2"
 description = ""
 readme = "README.md"
+homepage = "https://github.com/LucasFDutra/pysls"
 authors = ["LucasFDutra"]
 exclude = ["pysls/tests"]
 

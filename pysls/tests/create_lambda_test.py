@@ -43,7 +43,7 @@ def test_create_main_files():
 
     create_main_files(project_test_name, python_version)
     files_level_one_returned = [f for f in os.listdir(os.path.join('.', project_test_name)) if '.' in f]
-    files_level_one_expected = ['requirements.txt', 'docker-compose.yml', 'pyproject.toml', 'README.md', '.gitignore']
+    files_level_one_expected = ['requirements.txt', 'docker-compose.yml', 'pyproject.toml', 'README.md', '.gitignore', 'pysls_config.json']
     files_level_one_returned.sort()
     files_level_one_expected.sort()
 

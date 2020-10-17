@@ -1,21 +1,21 @@
 import os
 
-def create_dir_structure(project_name):
-    os.mkdir(os.path.join('.', project_name))
-    os.mkdir(os.path.join('.', project_name, project_name))
-    os.mkdir(os.path.join('.', project_name, project_name, 'src'))
-    os.mkdir(os.path.join('.', project_name, project_name, 'tests'))
-    os.mkdir(os.path.join('.', project_name, project_name, 'tests', 'integration'))
-    os.mkdir(os.path.join('.', project_name, project_name, 'tests', 'unit'))
-    os.mkdir(os.path.join('.', project_name, project_name, 'tests', 'utils'))
-    os.mkdir(os.path.join('.', project_name, project_name, 'tests', 'utils', 'files'))
-    os.mkdir(os.path.join('.', project_name, project_name, 'tests', 'utils', 'mocks'))
+def create_dir_structure(function_name):
+    os.mkdir(os.path.join('.', function_name))
+    os.mkdir(os.path.join('.', function_name, function_name))
+    os.mkdir(os.path.join('.', function_name, function_name, 'src'))
+    os.mkdir(os.path.join('.', function_name, function_name, 'tests'))
+    os.mkdir(os.path.join('.', function_name, function_name, 'tests', 'integration'))
+    os.mkdir(os.path.join('.', function_name, function_name, 'tests', 'unit'))
+    os.mkdir(os.path.join('.', function_name, function_name, 'tests', 'utils'))
+    os.mkdir(os.path.join('.', function_name, function_name, 'tests', 'utils', 'files'))
+    os.mkdir(os.path.join('.', function_name, function_name, 'tests', 'utils', 'mocks'))
 
-def create_main_files(project_name, python_version):
-    open(os.path.join('.', project_name, 'requirements.txt'), 'w').close()
-    open(os.path.join('.', project_name, project_name, '__init__.py'), 'w').close()
+def create_main_files(function_name, python_version):
+    open(os.path.join('.', function_name, 'requirements.txt'), 'w').close()
+    open(os.path.join('.', function_name, function_name, '__init__.py'), 'w').close()
 
-    with open(os.path.join('.', project_name, 'docker-compose.yml'), 'w') as dockerfile:
+    with open(os.path.join('.', function_name, 'docker-compose.yml'), 'w') as dockerfile:
         dockerfile.write("version: '3'\n")
         dockerfile.write("services:\n")
         dockerfile.write("  localstack:\n")
@@ -29,9 +29,9 @@ def create_main_files(project_name, python_version):
         dockerfile.write("    volumes:\n")
         dockerfile.write("      - \"/var/run/docker.sock:/var/run/docker.sock\"\n")
 
-    with open(os.path.join('.', project_name, 'pyproject.toml'), 'w') as pyproject:
+    with open(os.path.join('.', function_name, 'pyproject.toml'), 'w') as pyproject:
         pyproject.write("[tool.poetry]\n")
-        pyproject.write("name = \""+project_name+"\"\n")
+        pyproject.write("name = \""+function_name+"\"\n")
         pyproject.write("version = \"0.1.0\"\n")
         pyproject.write("description = \"\"\n")
         pyproject.write("authors = [\"YOUR NAME\"]\n")
@@ -46,14 +46,13 @@ def create_main_files(project_name, python_version):
         pyproject.write("requires = [\"poetry-core>=1.0.0\"]\n")
         pyproject.write("build-backend = \"poetry.core.masonry.api\"\n")
 
-    with open(os.path.join('.', project_name, 'README.md'), 'w') as readme:
+    with open(os.path.join('.', function_name, 'README.md'), 'w') as readme:
         readme.write('# OBJETIVO\n')
         readme.write('# COMO UTILIZAR\n')
         readme.write('## INSTALAÇÕES\n')
         readme.write('## COMO EXECUTAR\n')
 
-
-    with open(os.path.join('.', project_name, '.gitignore'), 'w') as gitignore:
+    with open(os.path.join('.', function_name, '.gitignore'), 'w') as gitignore:
         gitignore.write("# Byte-compiled / optimized / DLL files\n")
         gitignore.write("__pycache__/\n")
         gitignore.write("*.py[cod]\n")
@@ -191,9 +190,14 @@ def create_main_files(project_name, python_version):
         gitignore.write("package-lock.json\n")
         gitignore.write("package.json\n")
 
+    with open(os.path.join('.', function_name, 'pysls_config.json'), 'w') as pysls_config:
+        pysls_config.write("{\n")
+        pysls_config.write("    \"service\": \""+function_name.replace('_', '-')+"\",\n")
+        pysls_config.write("    \"function_name\": \""+function_name+"\"\n")
+        pysls_config.write("}\n")
 
-def create_src_files(project_name, python_version):
-    with open(os.path.join('.', project_name, project_name, 'src', 'lambda_function.py'), 'w') as lambda_function:
+def create_src_files(function_name, python_version):
+    with open(os.path.join('.', function_name, function_name, 'src', 'lambda_function.py'), 'w') as lambda_function:
         lambda_function.write("import json\n")
         lambda_function.write("\n")
         lambda_function.write("def lambda_handler(event, context):\n")
@@ -205,8 +209,8 @@ def create_src_files(project_name, python_version):
         lambda_function.write("\n")
         lambda_function.write("    return response\n")
 
-    with open(os.path.join('.', project_name, project_name, 'src', 'serverless.yml'), 'w') as serverless:
-        serverless.write("service: "+project_name.replace('_', '-')+"\n")
+    with open(os.path.join('.', function_name, function_name, 'src', 'serverless.yml'), 'w') as serverless:
+        serverless.write("service: "+function_name.replace('_', '-')+"\n")
         serverless.write("# frameworkVersion: '2'\n")
         serverless.write("\n")
         serverless.write("# custom:\n")
@@ -224,7 +228,7 @@ def create_src_files(project_name, python_version):
         serverless.write("#       Resource: 'arn:aws:s3:::${self:custom.bucketName}/*'\n")
         serverless.write("\n")
         serverless.write("functions:\n")
-        serverless.write("  "+project_name+":\n")
+        serverless.write("  "+function_name+":\n")
         serverless.write("    handler: lambda_function.lambda_handler\n")
         serverless.write("    # events:\n")
         serverless.write("    #   - x:\n")
@@ -236,7 +240,7 @@ def create_src_files(project_name, python_version):
         serverless.write("plugins:\n")
         serverless.write("  - serverless-localstack\n")
 
-def create_lambda(project_name, python_version):
-    create_dir_structure(project_name)
-    create_main_files(project_name, python_version)
-    create_src_files(project_name, python_version)
+def create_lambda(function_name, python_version):
+    create_dir_structure(function_name)
+    create_main_files(function_name, python_version)
+    create_src_files(function_name, python_version)
