@@ -2,11 +2,13 @@ import sys
 import re
 import os
 from platform import python_version
-from pysls.src.create_lambda import create_lambda
-from pysls.src.create_layer import create_layer
-from pysls.src.view_logs import view_logs_local
-from pysls.src.deploy_to_localstack import deploy_local
-from pysls.src.invoke_function import invoke_function
+from pysls.src.create.create_lambda import create_lambda
+from pysls.src.create.create_layer import create_layer
+from pysls.src.localstack.view_logs import view_logs_local
+from pysls.src.localstack.deploy_to_localstack import deploy_local
+from pysls.src.localstack.invoke_function import invoke_function
+from pysls.src.events.generate_event import generete_event
+
 import json
 
 def fct_pysls_config():
@@ -33,6 +35,10 @@ def fct_deploy(function_name):
 #--invoke
 def fct_invoke_function(function_name, service_name, event_path):
     invoke_function(function_name, service_name, event_path)
+
+#--generete event
+def fct_generete_event(service_name, event_type, values_to_sub, event_file_name):
+    generete_event(service_name, event_type, values_to_sub, event_file_name)
 
 # --help
 def fct_help():
@@ -77,6 +83,27 @@ def main():
         function_name = config['function_name']
         service_name = config['service']
         fct_invoke_function(function_name, service_name, event_path)
+
+    elif ('--generate_event' in arg):
+        service_name = ''
+        event_type = ''
+        values_to_sub = ''
+        event_file_name = ''
+        for arg_ in sys.argv[2:]:
+            if ('--service=' in arg_):
+                service_name = arg_.replace('--service=', '')
+            elif ('--event_type=' in arg_):
+                event_type = arg_.replace('--event_type=', '')
+            elif ('--filename=' in arg_):
+                event_file_name = arg_.replace('--filename=', '')
+            else:
+                values_to_sub += arg_
+            
+        fct_generete_event(service_name, event_type, values_to_sub, event_file_name)
+
+    else:
+        print('command not found')
+
 
 if __name__ == "__main__":
     main()

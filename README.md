@@ -89,6 +89,55 @@ $ pysls --logs
 
 This command gets the settings inside the `pysls_config.json` file, and sets up the function's logGroupName: `/aws/lambda/<service_name>-dev-<function_name>`. With the full name, it is possible to view all logs related to the function.
 
+## CREATE A EVENT FILE
+All lambda triggers send an event in json format. And [AWS SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-local-generate-event.html) is capable of generating these files for us, and with these files it is possible to go to their functions and test them. But I have implemented this function as well. I based all of my code on this part on SAM, and all of my event template files are a copy of the [SAM repository](https://github.com/aws/aws-sam-cli/tree/master/samcli/lib/generated_sample_events).
+
+```sh
+$ pysls --generate_event --service=aws_service --event_type=service_event --params --filename=event_file_name.json
+```
+
+Example:
+
+```sh
+# I will create an event.json file in my root folder, for a put s3 event in the my_bucket bucket, and the file that will trigger this event is in the lambda_folder folder and is named data.csv
+
+$ pysls --generate_event --service=s3 --event_type=put --bucket=my_bucket --key=lambda_folder/data.csv --filename=event.json
+```
+
+- All Services:
+  - `alexa-skills-kit`
+  - `alexa-smart-home`
+  - `apigateway`
+  - `batch`
+  - `cloudformation`
+  - `cloudfront`
+  - `codecommit`
+  - `codepipeline`
+  - `cognito`
+  - `config`
+  - `connect`
+  - `dynamodb`
+  - `cloudwatch`
+  - `kinesis`
+  - `lex`
+  - `rekognition`
+  - `s3`
+  - `sagemaker`
+  - `ses`
+  - `sns`
+  - `sqs`
+  - `stepfunctions`
+
+If you execute the commands below, an event.json file will be created in your root folder, with the default parameters.
+
+```sh
+$ pysls --generate_event --service=s3 --event_type=put
+$ pysls --generate_event --service=alexa-skills-kit --event_type=end-session
+$ pysls --generate_event --service=dynamodb --event_type=update
+```
+
+If you are interessted in know all events type in all services and all possible params, see the file [EVENT_INFO.md]('./EVENT_INFO.md)
+
 ---
 ## EXECUTE THE FUNCTION BASED ON AN EVENT
 
@@ -99,8 +148,6 @@ $ pysls --invoke=event_file_path
 This command gets the settings inside `pysls_config.json` and with that it assembles the name that the function has inside the localstack `<service_name>-dev-<function_name>`. And use the python SDK to invoke lambda by passing the event file as a parameter. And then it shows the lambda's response.
 
 It is possible not to send any files, in this case run the command `$ pysls --invoke`.
-
-> OBS.: To create this file, I recommend consulting the [SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-cli-command-reference-sam-local-generate-event.html) documentation, with SAM it is possible to create this event file.
 
 ## CONFIGURATIONS
 Use the `pysls_config.json` file to pass some settings. For now, there are only two: `service` and `function_name`. It is extremely important that these two names are the same as `serverless.yml`
@@ -130,6 +177,6 @@ Use the `pysls_config.json` file to pass some settings. For now, there are only 
 # FUTURE IDEAS
 
 - [x] Create your own settings file;
-- [ ] Generate the event files by the tool itself;
+- [x] Generate the event files by the tool itself;
 - [ ] Do not depend on the Serveless Framework to build the function and its dependencies and send it to the localstack;
 - [ ] Add new future ideas kkk

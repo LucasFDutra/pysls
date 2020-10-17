@@ -1,6 +1,6 @@
-from pysls.src.create_lambda import create_dir_structure
-from pysls.src.create_lambda import create_main_files
-from pysls.src.create_lambda import create_src_files
+from pysls.src.create.create_lambda import create_dir_structure
+from pysls.src.create.create_lambda import create_main_files
+from pysls.src.create.create_lambda import create_src_files
 from pysls.utils.rmdir import rmdir
 import os
 
