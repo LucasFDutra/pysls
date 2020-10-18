@@ -136,7 +136,7 @@ $ pysls --generate_event --service=alexa-skills-kit --event_type=end-session
 $ pysls --generate_event --service=dynamodb --event_type=update
 ```
 
-If you are interessted in know all events type in all services and all possible params, see the file [EVENT_INFO.md]('EVENT_INFO.md)
+If you are interessted in know all events type in all services and all possible params, see the file [EVENT_INFO.md](https://github.com/LucasFDutra/pysls/blob/master/EVENT_INFO.md)
 
 ---
 ## EXECUTE THE FUNCTION BASED ON AN EVENT
