@@ -18,7 +18,7 @@ def encode(encoding_scheme, value):
         return base64.b64encode(value.encode("utf8")).decode("utf-8")
     return value
 
-def generete_event(service_name, event_type, values_to_sub, event_file_name='event.json'):
+def generete_event(service_name, event_type, values_to_sub, event_file_name):
     this_folder = os.path.dirname(os.path.abspath(__file__))
     file_name = os.path.join(this_folder, "event_mapping.json")
 

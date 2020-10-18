@@ -47,6 +47,7 @@ def fct_help():
     print('## --create_layer=layer_name ------------- build a zip with dependencies on requirements.txt in the layer structure    ##')
     print('## --logs -------------------------------- view logs by function                                                       ##')
     print('## --deploy ------------------------------ send function and dependencies to localstack                                ##')
+    print('## --generete_event ---------------------- crete a event file                                                          ##')
     print('## --invoke=event_file_path -------------- invoke function inside localstack                                           ##')
     print('###===================================================================================================================###')
 
@@ -75,7 +76,7 @@ def main():
         config = fct_pysls_config()
         function_name = config['function_name']
         fct_deploy(function_name)
-    
+
     elif ('--invoke' in arg):
         event_path = arg.replace('--invoke=', '')
         event_path = event_path.replace('--invoke', '')
@@ -88,7 +89,7 @@ def main():
         service_name = ''
         event_type = ''
         values_to_sub = ''
-        event_file_name = ''
+        event_file_name = 'event.json'
         for arg_ in sys.argv[2:]:
             if ('--service=' in arg_):
                 service_name = arg_.replace('--service=', '')
