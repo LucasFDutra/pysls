@@ -52,6 +52,3 @@ def generete_event(service_name, event_type, values_to_sub, event_file_name):
 
     with open(event_file_name, 'w')  as event:
         json.dump(json.loads(event_file_content), event, indent=4)
-
-if __name__ == "__main__":
-    generete_event('sqs', 'receive-message', '')

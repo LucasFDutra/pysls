@@ -34,3 +34,9 @@ def test_generate_event():
                 values_to_sub_pysls = ''
                 res = loop_commands(service_name, event_type, values_to_sub_sam, values_to_sub_pysls)
                 assert(res)
+
+def test_generate_event_s3():
+    values_to_sub_sam = ''
+    values_to_sub_pysls = ''
+    res = loop_commands('s3', 'put', '--bucket my_bucket --key arquivo.csv', '--bucket=my_bucket --key=arquivo.csv')
+    assert(res)
