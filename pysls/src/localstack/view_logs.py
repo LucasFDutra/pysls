@@ -2,7 +2,7 @@ import boto3
 import json
 import os
 
-def view_logs_local(project_name):
+def view_logs_local(function_name, service_name):
     config_cw_logs = {
         'service_name': 'logs',
         'aws_access_key_id': '123',
@@ -11,10 +11,7 @@ def view_logs_local(project_name):
         'endpoint_url': 'http://localhost:4566'
     }
 
-    with open(os.path.join('.', project_name, 'src', 'serverless.yml'), 'r') as serverless:
-        function_name = serverless.readline().replace('service:', '').replace('\n', '').strip()
-
-    function_log_group_name = '/aws/lambda/'+function_name+'-dev-'+project_name
+    function_log_group_name = '/aws/lambda/'+service_name+'-dev-'+function_name
 
     cw_logs = boto3.client(**config_cw_logs)
 

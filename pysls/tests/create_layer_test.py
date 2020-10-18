@@ -1,5 +1,5 @@
-from pysls.src.create_lambda import create_lambda
-from pysls.src.create_layer import create_layer
+from pysls.src.create.create_lambda import create_lambda
+from pysls.src.create.create_layer import create_layer
 from pysls.utils.rmdir import rmdir
 import os
 import time
