@@ -8,6 +8,6 @@ def deploy_local(function_name):
     os.mkdir(path_code_to)
     copy_folder(path_code_from, path_code_to)
     os.system('cd '+ path_code_to +' && npm install --save-dev serverless-localstack')
-    os.system('pip install -r requirements.txt -t '+path_code_to)
+    os.system('pip3 install -r requirements.txt -t '+path_code_to)
     os.system('cd '+ path_code_to +' && sls deploy')
     rmdir(path_code_to)
