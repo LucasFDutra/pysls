@@ -190,12 +190,6 @@ def create_main_files(function_name, python_version):
         gitignore.write("package-lock.json\n")
         gitignore.write("package.json\n")
 
-    with open(os.path.join('.', function_name, 'pysls_config.json'), 'w') as pysls_config:
-        pysls_config.write("{\n")
-        pysls_config.write("    \"service\": \""+function_name.replace('_', '-')+"\",\n")
-        pysls_config.write("    \"function_name\": \""+function_name+"\"\n")
-        pysls_config.write("}\n")
-
 def create_src_files(function_name, python_version):
     with open(os.path.join('.', function_name, function_name, 'src', 'lambda_function.py'), 'w') as lambda_function:
         lambda_function.write("import json\n")

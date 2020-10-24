@@ -80,6 +80,14 @@ This command will copy the `src` folder to `./src_tmp`, and after that it will r
 
 > OBS.: The localstack must be active, if not, run the commando: `$ docker-compose -up`.
 
+## UPDATE FUNCTION CODE IN LOCALSTACK
+
+```sh
+$ pysls --update
+```
+
+This command will do the same things as the `--deploy` command, but it will not create the entire structure again, it will just send the code, so this command is much faster. But, if you change the structure (memory, timeout, event, etc ...) you will need to run `--deploy` again.
+
 ---
 ## VIEW LOGS INSIDE THE LOCALSTACK
 
@@ -150,20 +158,28 @@ This command gets the settings inside `pysls_config.json` and with that it assem
 It is possible not to send any files, in this case run the command `$ pysls --invoke`.
 
 ## CONFIGURATIONS
-Use the `pysls_config.json` file to pass some settings. For now, there are only two: `service` and `function_name`. It is extremely important that these two names are the same as `serverless.yml`
+`serverless.yml` is the base configuration file for pysls. And it is extremely important that the project folder has the same name as the function described within the `serverless.yml` file.
 
-- pysls_config.json
-  ```json
-  {
-      "service": "test-lambda",
-      "function_name": "test_lambda"
-  }
-  ```
+```sh
+├── docker-compose.yml
+├── lambda_test
+│   ├── __init__.py
+│   ├── src
+│   │   ├── lambda_function.py
+│   │   └── serverless.yml
+│   └── tests
+│       ├── integration
+│       ├── unit
+│       └── utils
+│           ├── files
+│           └── mocks
+├── pyproject.toml
+├── README.md
+└── requirements.txt
+```
 
 - serverless.yml
   ```yaml
-  service: test-lambda
-
   functions:
     test_lambda:
       handler: lambda_function.lambda_handler
@@ -176,7 +192,6 @@ Use the `pysls_config.json` file to pass some settings. For now, there are only 
 
 # FUTURE IDEAS
 
-- [x] Create your own settings file;
 - [x] Generate the event files by the tool itself;
-- [ ] Do not depend on the Serveless Framework to build the function and its dependencies and send it to the localstack;
+- [ ] Send to AWS
 - [ ] Add new future ideas kkk
